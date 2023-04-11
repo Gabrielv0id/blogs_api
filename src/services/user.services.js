@@ -7,6 +7,14 @@ const registerUser = async (user) => {
   return registeredUser;
 };
 
+const listUsers = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  return users;
+};
+
 module.exports = {
     registerUser,
+    listUsers,
 };

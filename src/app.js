@@ -12,6 +12,7 @@ app.get('/', (_request, response) => {
 app.use(express.json());
 
 app.use('/login', routes.loginRouter);
+app.use('/user', routes.userRouter);
 // ...
 
 // É importante exportar a constante `app`,

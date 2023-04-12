@@ -7,6 +7,13 @@ const registerCategory = async (req, res) => {
   return res.status(201).json(response);
 };
 
+const listCategories = async (_req, res) => {
+  const response = await categoriesSevice.listCategories();
+
+  return res.status(200).json(response);
+};
+
 module.exports = {
   registerCategory,
+  listCategories,
 };

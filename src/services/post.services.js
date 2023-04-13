@@ -1,4 +1,4 @@
-const { BlogPost, PostCategory, Category } = require('../models');
+const { BlogPost, PostCategory, Category, User } = require('../models');
 
 const registerPost = async (post, user) => {
   const { title, content, categoryIds } = post;
@@ -24,6 +24,14 @@ const registerPost = async (post, user) => {
   return registeredPost;
 };
 
+const listPosts = () => {
+  const posts = BlogPost.findAll({ 
+    include: [{ model: User, as: 'user', attributes: { exclude: ['password'] } }, 
+    { model: Category, as: 'categories' }] });
+  return posts;
+};
+
 module.exports = {
   registerPost,
+  listPosts,
 };

@@ -13,6 +13,13 @@ const registerPost = async (req, res) => {
   }
 };
 
+const listPosts = async (_req, res) => {
+  const response = await postServices.listPosts();
+
+  return res.status(200).json(response);
+};
+
 module.exports = {
   registerPost,
+  listPosts,
 };

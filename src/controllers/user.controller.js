@@ -18,16 +18,31 @@ const listUsers = async (_req, res) => {
 };
 
 const getUserById = async (req, res) => {
-  const { id } = req.params;
-  
-  const user = await userServices.getUserById(id);
-  if (!user) return res.status(404).json({ message: 'User does not exist' });
+  try {
+    const { id } = req.params;
+    const user = await userServices.getUserById(id);
 
-  return res.status(200).json(user);
+    return res.status(200).json(user);
+  } catch (error) {
+    res.status(error.statusCode).json({ message: error.message });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {  
+  const { user } = req;
+
+  await userServices.deleteUser(user);
+
+  return res.status(204).send();
+  } catch (error) {
+    return res.status(error.statusCode).json({ message: error.message });
+  }
 };
 
 module.exports = {
     registerUser,
     listUsers,
     getUserById,
+    deleteUser,
 };

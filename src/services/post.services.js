@@ -1,4 +1,5 @@
 const { BlogPost, PostCategory, Category, User } = require('../models');
+const customError = require('../utils/customError');
 
 const registerPost = async (post, user) => {
   const { title, content, categoryIds } = post;
@@ -38,13 +39,29 @@ const getPostById = async (id) => {
       { model: Category, as: 'categories' }],
     });
 
-  if (!post) throw new Error('Post does not exist');
+  if (!post) throw customError('Post does not exist', 404);
 
   return post;
+};
+
+const updatePost = async (id, post, user) => {
+  const { title, content } = post;
+
+  const getPost = await getPostById(id);
+  if (getPost.userId !== user.id) throw customError('Unauthorized user', 401);
+
+  await BlogPost.update(
+    { title, content },
+    { where: { id } },
+  );
+
+  const updatedPost = await getPostById(id);
+  return updatedPost;
 };
 
 module.exports = {
   registerPost,
   listPosts,
   getPostById,
+  updatePost,
 };

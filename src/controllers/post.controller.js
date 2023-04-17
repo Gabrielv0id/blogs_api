@@ -27,7 +27,21 @@ const getPostById = async (req, res) => {
 
     return res.status(200).json(response);
   } catch (error) {
-    return res.status(404).json({ message: error.message });
+    return res.status(error.statusCode).json({ message: error.message });
+  }
+};
+
+const updatePost = async (req, res) => {
+  try {
+    const post = req.body;
+    const { user } = req;
+    const { id } = req.params;
+
+    const response = await postServices.updatePost(id, post, user);
+
+    return res.status(200).json(response);
+  } catch (error) {
+    return res.status(error.statusCode).json({ message: error.message });
   }
 };
 
@@ -35,4 +49,5 @@ module.exports = {
   registerPost,
   listPosts,
   getPostById,
+  updatePost,
 };

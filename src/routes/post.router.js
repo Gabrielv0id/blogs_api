@@ -7,6 +7,7 @@ const updatePostValidate = require('../middlewares/updatePostValidate');
 const router = express.Router();
 
 router.get('/', tokenValidate, postController.listPosts);
+router.get('/search', tokenValidate, postController.searchPost);
 router.get('/:id', tokenValidate, postController.getPostById);
 router.post('/', tokenValidate, postValidate, postController.registerPost);
 router.put('/:id', tokenValidate, updatePostValidate, postController.updatePost);
